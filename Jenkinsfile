@@ -1,6 +1,11 @@
 pipeline {
   agent any
   stages {
+    stage('Build Domain') {
+      steps {
+    	sh 'mvn -f hello-domain clean install'
+      }
+    }
     stage('Build App') {
       steps {
     	sh 'mvn -f helloworld1 clean install'
