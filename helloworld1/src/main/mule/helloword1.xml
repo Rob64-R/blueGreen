@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="0d2d1a1a-262e-4c3e-b186-a85d39e8e29c" basePath="/api" >
+		<http:request-connection protocol="HTTPS" host="www.boredapi.com" />
+	</http:request-config>
+	<flow name="helloworld1Flow" doc:id="895bc677-aef8-4327-9f7f-f862ba1ed587" >
+		<http:listener doc:name="Listener" doc:id="7a5b79e6-b856-455d-a1ec-f7408c364c17" path="/hello" config-ref="listener_1"/>
+		<http:request method="GET" doc:name="Request" doc:id="b2fe0044-b2dc-4e6e-a145-d41f1f4f5daa" path="/activity" config-ref="HTTP_Request_configuration"/>
+		<ee:transform doc:name="Transform Message" doc:id="b39cc3d9-f890-45e5-ae33-de8fbb3caa39" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Server 1 recommends: " ++ payload.activity]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
