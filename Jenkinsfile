@@ -1,6 +1,11 @@
 pipeline {
   agent any
   stages {
+    stage('Build App') {
+      steps {
+    	sh 'mvn -f helloworld1 clean install'
+      }
+    }
     stage('Unit Test') { 
       steps {
         sh 'mvn -f helloworld1/pom.xml clean test'
